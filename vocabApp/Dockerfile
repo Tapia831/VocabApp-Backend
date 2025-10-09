@@ -1,6 +1,4 @@
-# =========================================================
-# 🏗️  Stage 1 — Build the Spring Boot JAR
-# =========================================================
+# Use Maven to build the application
 FROM maven:3.9.9-eclipse-temurin-17 AS builder
 
 # Set working directory inside container
@@ -16,9 +14,6 @@ COPY src ./src
 # Build the Spring Boot fat JAR
 RUN mvn clean package -DskipTests
 
-# =========================================================
-# 🚀 Stage 2 — Run the application (minimal runtime image)
-# =========================================================
 FROM eclipse-temurin:17-jdk-jammy
 
 WORKDIR /app
