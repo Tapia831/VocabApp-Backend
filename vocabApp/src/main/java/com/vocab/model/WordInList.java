@@ -13,6 +13,7 @@ public class WordInList {
     private String userId;
     private String word;
     private String definition;
+    private String category;
     private LocalDateTime addedAt;
     
     public WordInList() {
@@ -57,6 +58,14 @@ public class WordInList {
     
     public void setDefinition(String definition) {
         this.definition = definition;
+    }
+    
+    public String getCategories() {
+        return category;
+    }
+    
+    public void setCategories(String category) {
+        this.category = category;
     }
     
     public LocalDateTime getAddedAt() {
