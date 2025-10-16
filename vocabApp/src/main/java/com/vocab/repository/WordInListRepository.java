@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface WordInListRepository extends MongoRepository<WordInList, String> {
     List<WordInList> findByUserIdAndListId(String userId, String listId);
     Optional<WordInList> findByUserIdAndListIdAndWord(String userId, String listId, String word);
+    List<WordInList> findByListId(String listId);
 }
