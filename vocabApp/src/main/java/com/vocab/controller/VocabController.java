@@ -1,5 +1,4 @@
 package com.vocab.controller;
-
 import com.vocab.model.VocabList;
 import com.vocab.model.WordInList;
 import com.vocab.repository.VocabListRepository;
@@ -8,17 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
 @RestController
 @RequestMapping("/api/vocab")
 @CrossOrigin(origins = "*")
 public class VocabController {
-
     @Autowired
     private VocabListRepository vocabListRepository;
 
@@ -26,7 +22,7 @@ public class VocabController {
     private WordInListRepository wordInListRepository;
 
     @GetMapping("/lists/{userId}")
-    public ResponseEntity<?> getAllLists(@PathVariable String userId) {
+    public ResponseEntity<?> getAllLists(@PathVariable("userId") String userId) {
         try {
             List<VocabList> lists = vocabListRepository.findByUserId(userId);
             return ResponseEntity.ok(lists);
@@ -37,7 +33,7 @@ public class VocabController {
     }
 
     @GetMapping("/lists/{userId}/exclude-history")
-    public ResponseEntity<?> getListsExcludingHistory(@PathVariable String userId) {
+    public ResponseEntity<?> getListsExcludingHistory(@PathVariable("userId") String userId) {
         try {
             Optional<VocabList> historyList = vocabListRepository.findFirstByUserIdOrderByCreatedAtAsc(userId);
             List<VocabList> allLists = vocabListRepository.findByUserId(userId);
@@ -79,7 +75,8 @@ public class VocabController {
 
     // this is to get all words in a specific list
     @GetMapping("/words/{userId}/{listId}")
-    public ResponseEntity<?> getWordsInList(@PathVariable String userId, @PathVariable String listId) {
+    public ResponseEntity<?> getWordsInList(@PathVariable("userId") String userId,
+            @PathVariable("listId") String listId) {
         try {
             Optional<VocabList> list = vocabListRepository.findById(listId);
             List<WordInList> words = wordInListRepository.findByUserIdAndListId(userId, listId);
@@ -121,7 +118,7 @@ public class VocabController {
     }
 
     @DeleteMapping("/words/{wordId}")
-    public ResponseEntity<?> deleteWord(@PathVariable String wordId) {
+    public ResponseEntity<?> deleteWord(@PathVariable("wordId") String wordId) {
         try {
             wordInListRepository.deleteById(wordId);
             return ResponseEntity.ok(Map.of("message", "Word deleted successfully"));
@@ -133,7 +130,7 @@ public class VocabController {
 
     // this is to update a word in a specific list
     @PutMapping("/words/{wordId}")
-    public ResponseEntity<?> updateWord(@PathVariable String wordId, @RequestBody WordInList updatedWord) {
+    public ResponseEntity<?> updateWord(@PathVariable("wordId") String wordId, @RequestBody WordInList updatedWord) {
         try {
             Optional<WordInList> wordOpt = wordInListRepository.findById(wordId);
             if (wordOpt.isEmpty()) {
